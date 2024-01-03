@@ -5,20 +5,47 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.AM.dto.Article;
-import com.KoreaIT.java.AM.dto.Member;
 import com.KoreaIT.java.AM.util.Util;
 
-public class ArticleController {
-	List<Article> articles;
+public class ArticleController extends Controller {
+
+	private List<Article> articles;
 	private Scanner sc;
-	int lastArticleId = 3;
-	
-	public ArticleController(Scanner sc ,List<Article> articles) {
-		this.articles = articles;
+	private String cmd;
+
+	public ArticleController(Scanner sc) {
+		this.articles = new ArrayList<>();
 		this.sc = sc;
 	}
 
-	public void write(String cmd) {
+	public void doAction(String actionMethodName, String cmd) {
+		this.cmd = cmd;
+
+		switch (actionMethodName) {
+		case "write":
+			doWrite();
+			break;
+		case "list":
+			showList();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "modify":
+			doModify();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		default:
+			System.out.println("명령어 확인해 (actionMethodName 오류)4");
+			break;
+		}
+	}
+
+	int lastArticleId = 3;
+
+	private void doWrite() {
 		System.out.println("==게시글 작성==");
 		int id = lastArticleId + 1;
 		String regDate = Util.getNowDate_TimeStr();
@@ -33,9 +60,10 @@ public class ArticleController {
 
 		System.out.printf("%d번 글이 생성 되었습니다.\n", id);
 		lastArticleId++;
+
 	}
 
-	public void list(String cmd) {
+	private void showList() {
 		System.out.println("==게시글 목록==");
 		if (articles.size() == 0) {
 			System.out.println("아무것도 없어");
@@ -77,8 +105,7 @@ public class ArticleController {
 
 	}
 
-	public void detail(String cmd) {
-
+	private void showDetail() {
 		String[] cmdDiv = cmd.split(" ");
 
 		int id = 0;
@@ -107,8 +134,7 @@ public class ArticleController {
 
 	}
 
-	public void delete(String cmd) {
-
+	private void doDelete() {
 		String[] cmdDiv = cmd.split(" ");
 
 		int id = 0;
@@ -128,10 +154,10 @@ public class ArticleController {
 		}
 		articles.remove(foundArticle);
 		System.out.println(id + "번 글이 삭제되었습니다.");
+
 	}
 
-	public void modify(String cmd) {
-
+	private void doModify() {
 		String[] cmdDiv = cmd.split(" ");
 
 		int id = 0;
@@ -161,8 +187,10 @@ public class ArticleController {
 		foundArticle.setTitle(newTitle);
 		foundArticle.setBody(newBody);
 		System.out.println(id + "번 글이 수정되었습니다.");
+
 	}
-	public Article getArticleById(int id) {
+
+	private Article getArticleById(int id) {
 		for (Article article : articles) {
 			if (article.getId() == id) {
 				return article;
