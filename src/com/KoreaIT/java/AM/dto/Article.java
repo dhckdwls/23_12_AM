@@ -6,19 +6,29 @@ public class Article extends Dto {
 
 	private String title;
 	private String body;
+	private String masterId;
+	
+	public String getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(String masterId) {
+		this.masterId = masterId;
+	}
 
 	private int hit;
 
-	public Article(int id, String regDate, String updateDate, String title, String body) {
-		this(id, regDate, updateDate, title, body, 0);
+	public Article(int id, String regDate, String updateDate, String title, String body, String masterId) {
+		this(id, regDate, updateDate, title, body,masterId, 0);
 	}
 
-	public Article(int id, String regDate, String updateDate, String title, String body, int hit) {
+	public Article(int id, String regDate, String updateDate, String title, String body, String masterId,int hit) {
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
+		this.masterId = masterId; 
 		this.hit = hit;
 	}
 
