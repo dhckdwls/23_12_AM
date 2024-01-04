@@ -138,10 +138,18 @@ public class ArticleController extends Controller {
 			System.out.printf("%d번 게시글은 없습니다\n", id);
 			return;
 		}
+		
 		System.out.println("번호 : " + foundArticle.getId());
 		System.out.println("작성 날짜 : " + foundArticle.getRegDate());
 		System.out.println("수정 날짜 : " + foundArticle.getUpdateDate());
-		System.out.println("작성자 : " + foundArticle.getMemberId());
+		String writerName = null;
+		for(Member member : members) {
+			if(member.getId() == foundArticle.getId()) {
+				writerName = member.getName();
+				break;
+			}
+		}
+		System.out.println("작성자 : " + writerName);
 		System.out.println("제목 : " + foundArticle.getTitle());
 		System.out.println("내용 : " + foundArticle.getBody());
 		System.out.println("조회 : " + foundArticle.getHit());
